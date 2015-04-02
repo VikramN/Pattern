@@ -67,21 +67,29 @@ namespace Pattern
 
                 // Looper
                 var t = instanceType;
-                while (t != null)
+                while (!matched && t != null)
                 {
                     // Could be Same Type, Base Class, Interface
                     if (item.ActionType.IsAssignableFrom(t))
                     {
                         dynamic del = item.Action;
-                        del.DynamicInvoke(instance);
-                        matched = true;
-                        break;
+                        var exec = true;
+
+                        if(item.Condition != null)
+                        {
+                            exec = item.Condition.DynamicInvoke(instance);
+                        }
+
+                        if(exec)
+                        {
+                            del.DynamicInvoke(instance);
+                            matched = true;
+                            break;
+                        } 
                     }
-                    else
-                    {
-                        // Check against base class next
-                        t = t.BaseType;
-                    }
+                    
+                    // Check against base class next
+                    t = t.BaseType;
                 }
 
                 // Yup.. Done
@@ -106,6 +114,17 @@ namespace Pattern
         public dynamic Action { get; private set; }
 
         public Type ActionType { get; private set; }
+
+        public dynamic Condition { get; private set; }
+
+        /// <summary>
+        /// Make a conditional match, based on the condition Func => bool
+        /// </summary>
+        public When And<T>(Func<T, bool> condition)
+        {
+            this.Condition = condition;
+            return this;
+        }
 
         /// <summary>
         /// Create a "case" to be executed

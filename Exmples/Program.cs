@@ -102,7 +102,6 @@ namespace Exmples
 
         static void Main(string[] args)
         {
-
             // Example 1
             Match.Switch(
                 When.Its<int>((x) => { Console.WriteLine("Int " + x); }),
@@ -132,7 +131,7 @@ namespace Exmples
                             Console.WriteLine("Area of Hexagon is = " + 2.6f * x.Length * x.Length);
                             break;
                     }
-                }),
+                }).And<Polygon>(x => { return x.Sides <= 6; }),
 
                 When.Its<IPolygon>(x =>
                 {
@@ -151,7 +150,21 @@ namespace Exmples
             match.Against(new Circle(10));
             match.Against(new Square(5));
             match.Against(new Polygon(5, 10));
+            match.Against(new Polygon(7, 10));
             match.Against(new ConcavePoly());
+            
+            // Example 3 
+            // Conditional Match
+            // Also, different stryle => auto infer generic type 
+            match = Match.Switch(
+                When.Its((Tuple<int, int, int> x) => Console.WriteLine(x.Item1 + x.Item2 + x.Item3)).
+                    And((Tuple<int, int, int> y) => { return y.Item1 > 10; }),
+
+                When.Its((object x) => Console.WriteLine("Whatever"))
+            );
+
+            match.Against(new Tuple<int, int, int>(1, 2, 4));
+            match.Against(new Tuple<int, int, int>(11, 2, 4));
 
             Console.ReadKey();
         }
