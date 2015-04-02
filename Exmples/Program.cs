@@ -108,6 +108,12 @@ namespace Exmples
                 When.Its<float>((x) => { Console.WriteLine("Float " + x); })
             ).Against(10.5f);
 
+            Match.Switch(
+                When.Its<int>((x) => { Console.WriteLine(" > 10"); }).And((int x) => x > 10),
+                When.Its<int>((x) => { Console.WriteLine(" < 10 ");}).And((int x) => x < 10),
+                When.Its<int>((x) => { Console.WriteLine(" Whoa! 10 ");}).And((int x) => x == 10)
+            ).Against(9);
+
 
             // Example 2
             // You can cache the "Match" object
