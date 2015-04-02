@@ -67,6 +67,28 @@ match.Against(new ConcavePoly());
 // Check out the example code if this is not clear enough
 ```
 
+#Conditional Match
+
+```C#
+// Conditional Match
+Match.Switch(
+  When.Its<int>((x) => { Console.WriteLine(" > 10"); }).And((int x) => x > 10),
+  When.Its<int>((x) => { Console.WriteLine(" < 10 ");}).And((int x) => x < 10),
+  When.Its<int>((x) => { Console.WriteLine(" Whoa! 10 ");}).And((int x) => x == 10)
+).Against(9);
+
+// Also, different stryle => auto infer generic type 
+match = Match.Switch(
+    When.Its((Tuple<int, int, int> x) => Console.WriteLine(x.Item1 + x.Item2 + x.Item3)).
+        And((Tuple<int, int, int> y) => { return y.Item1 > 10; }),
+
+    When.Its((object x) => Console.WriteLine("Whatever"))
+);
+
+match.Against(new Tuple<int, int, int>(1, 2, 4));  // Whatever cos the And condition fails
+match.Against(new Tuple<int, int, int>(11, 2, 4)); // Matches
+```
+
 #License
 
 MIT
