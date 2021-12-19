@@ -5,7 +5,7 @@ Simple Pattern Matching in C#
 
 Use the **Pattern** project in whichever way you are used to!
 
-#Examples
+# Examples
 
 Check out the Examples Project (Console App)
 
@@ -67,7 +67,7 @@ match.Against(new ConcavePoly());
 // Check out the example code if this is not clear enough
 ```
 
-#Conditional Match
+## Conditional Match
 
 ```C#
 // Conditional Match
@@ -89,7 +89,7 @@ match.Against(new Tuple<int, int, int>(1, 2, 4));  // Whatever cos the And condi
 match.Against(new Tuple<int, int, int>(11, 2, 4)); // Matches
 ```
 
-#License
+## License
 
 MIT
 
